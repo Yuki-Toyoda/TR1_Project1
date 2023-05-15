@@ -16,7 +16,7 @@ public:
 	/// <param name="k">何倍にするか</param>
 	/// <param name="v1">計算するベクトル</param>
 	/// <returns>計算結果</returns>
-	static Vector2 Scaler(const float k, const Vector2& v1);
+	static Vector2 Vector2Multiply(const float k, const Vector2& v1);
 
 	/// <summary>
 	/// ベクトルの内積を求める関数

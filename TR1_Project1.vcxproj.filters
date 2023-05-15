@@ -35,6 +35,9 @@
     <Filter Include="MyClass\Camera">
       <UniqueIdentifier>{496ad5b3-4853-42c3-86ed-05d98858ed5c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="MyClass\Object\Player">
+      <UniqueIdentifier>{8f0dec94-fa27-4b86-a637-cab778a400a3}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="C:\KamataEngine\DirectXGame\base\DirectXCommon.cpp">
@@ -70,6 +73,9 @@
     </ClCompile>
     <ClCompile Include="ObjectManager.cpp">
       <Filter>MyClass\Object</Filter>
+    </ClCompile>
+    <ClCompile Include="Player.cpp">
+      <Filter>MyClass\Object\Player</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -162,6 +168,9 @@
     </ClInclude>
     <ClInclude Include="ObjectManager.h">
       <Filter>MyClass\Object</Filter>
+    </ClInclude>
+    <ClInclude Include="Player.h">
+      <Filter>MyClass\Object\Player</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

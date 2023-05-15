@@ -2,19 +2,6 @@
 #include "MyConst.h"
 
 /// <summary>
-/// コンストラクタ
-/// </summary>
-MyCamera::MyCamera() {
-
-}
-/// <summary>
-/// デストラクタ
-/// </summary>
-MyCamera::~MyCamera() {
-
-}
-
-/// <summary>
 /// 初期化処理
 /// </summary>
 /// <param name="translate_">カメラ中心座標</param>

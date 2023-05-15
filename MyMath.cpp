@@ -1,6 +1,6 @@
 ﻿#include "MyMath.h"
 
-Vector2 MyMath::Scaler(const float k, const Vector2& v1) {
+Vector2 MyMath::Vector2Multiply(const float k, const Vector2& v1) {
 
 	// 結果格納用
 	Vector2 result;

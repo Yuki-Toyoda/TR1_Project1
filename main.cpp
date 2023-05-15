@@ -1,6 +1,7 @@
 #include <Novice.h>
 #include "MyConst.h"
 #include "MyInput.h"
+#include "MyCamera.h"
 #include "ObjectManager.h"
 
 // Windowsアプリでのエントリーポイント(main関数)
@@ -9,11 +10,15 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	// ライブラリの初期化
 	Novice::Initialize(kWindowTitle, kWindowWidth, kWindowHeight);
 
+	// カメラ
+	MyCamera camera;
 	// オブジェクトマネージャー
 	ObjectManager objectManager;
 
 	// キー入力状態初期化
 	MyInput::Initialize();
+	// カメラ初期化
+	camera.Initialize({ 0.0f, 0.0f });
 	// オブジェクト初期化
 	objectManager.Initialize();
 
@@ -29,6 +34,8 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 		// キー入力検知
 		MyInput::Update();
+		// カメラ更新
+		camera.Update({ 0.0f, 0.0f });
 
 		// オブジェクト更新処理
 		objectManager.Update();

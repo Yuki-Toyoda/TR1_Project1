@@ -6,15 +6,7 @@
 /// </summary>
 class MyCamera
 {
-
-	/// <summary>
-	/// コンストラクタ
-	/// </summary>
-	MyCamera();
-	/// <summary>
-	/// デストラクタ
-	/// </summary>
-	~MyCamera();
+public:
 
 	/// <summary>
 	/// 初期化処理
