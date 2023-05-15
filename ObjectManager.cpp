@@ -31,14 +31,30 @@ void ObjectManager::Update() {
 void ObjectManager::Draw() {
 	for (int i = 0; i < kMaxObjectSize; i++) {
 		if (object[i]->GetType() != TypeObject) {
-			object[i]->Draw();
+			object[i]->Draw(timeScale);
 		}
 	}
 }
 
 #pragma region オブジェクトのインスタンスを作成する関数群
 
-
+/// <summary>
+/// プレイヤーのインスタンスを生成する関数
+/// </summary>
+/// <param name="translate_">プレイヤーの初期座標</param>
+void ObjectManager::MakeNewObjectPlayer(Vector2 translate_) {
+	for (int i = 0; i < kMaxObjectSize; i++) {
+		// 生成されていれば生成しない
+		if (object[i]->GetType() == TypePlayer) {
+			break;
+		}
+		if (!object[i]->GetIsAlive() == false) {
+			object[i] = new Player(translate_);
+			object[i]->Initialize();
+			break;
+		}
+	}
+}
 
 #pragma endregion
 

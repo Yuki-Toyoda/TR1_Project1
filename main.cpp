@@ -11,17 +11,19 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	Novice::Initialize(kWindowTitle, kWindowWidth, kWindowHeight);
 
 	// カメラ
-	MyCamera camera;
+	//MyCamera camera;
 	// オブジェクトマネージャー
 	ObjectManager objectManager;
 
 	// キー入力状態初期化
 	MyInput::Initialize();
 	// カメラ初期化
-	camera.Initialize({ 0.0f, 0.0f });
+	Vector2 translate = { (float)kWindowWidth / 2, (float)kWindowHeight / 2 };
+	MyCamera::Initialize(translate);
 	// オブジェクト初期化
 	objectManager.Initialize();
 
+	objectManager.MakeNewObjectPlayer({ 640.0f, 360.0f });
 
 	// ウィンドウの×ボタンが押されるまでループ
 	while (Novice::ProcessMessage() == 0) {
@@ -35,10 +37,24 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		// キー入力検知
 		MyInput::Update();
 		// カメラ更新
-		camera.Update({ 0.0f, 0.0f });
+		MyCamera::Update(translate);
 
 		// オブジェクト更新処理
 		objectManager.Update();
+
+		if (MyInput::GetKeybordState(DIK_RIGHT, Press)) {
+			translate.x += 1.0f;
+		}
+		else if (MyInput::GetKeybordState(DIK_LEFT, Press)) {
+			translate.x -= 1.0f;
+		}
+
+		if (MyInput::GetKeybordState(DIK_UP, Press)) {
+			translate.y += 1.0f;
+		}
+		else if (MyInput::GetKeybordState(DIK_DOWN, Press)) {
+			translate.y -= 1.0f;
+		}
 
 		///
 		/// ↑更新処理ここまで
@@ -50,6 +66,9 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 		// オブジェクト描画処理
 		objectManager.Draw();
+
+		// デバック描画
+		Novice::ScreenPrintf(0, 40, "camera : x = %4.2f y = %4.2f", translate.x, translate.y);
 
 		///
 		/// ↑描画処理ここまで

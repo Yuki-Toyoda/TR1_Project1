@@ -1,5 +1,6 @@
 ﻿#pragma once
 #include "Object.h"
+#include "Player.h"
 class ObjectManager
 {
 public:
@@ -21,7 +22,11 @@ public:
 
 #pragma region オブジェクトのインスタンスを作成する関数群
 
-
+	/// <summary>
+	/// プレイヤーのインスタンスを生成する関数
+	/// </summary>
+	/// <param name="translate_">プレイヤーの初期座標</param>
+	void MakeNewObjectPlayer(Vector2 translate_);
 
 #pragma endregion
 

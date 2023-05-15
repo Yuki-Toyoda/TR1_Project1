@@ -147,6 +147,7 @@
     <ClInclude Include="MyEnum.h" />
     <ClInclude Include="MyInput.h" />
     <ClInclude Include="MyMath.h" />
+    <ClInclude Include="MyStruct.h" />
     <ClInclude Include="Object.h" />
     <ClInclude Include="ObjectManager.h" />
     <ClInclude Include="Player.h" />

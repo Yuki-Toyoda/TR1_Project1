@@ -1,5 +1,6 @@
 ﻿#pragma once
 #include <cmath>
+#include <cassert>
 #include "Vector2.h"
 #include "Matrix3x3.h"
 
@@ -39,6 +40,14 @@ public:
 	/// <param name="v">ベクトル</param>
 	/// <returns>正規化ベクトル</returns>
 	static Vector2 Normalize(const Vector2& v);
+
+	/// <summary>
+	/// 位置座標をスクリーン座標に変換する関数
+	/// </summary>
+	/// <param name="v">二次元ベクトル</param>
+	/// <param name="m">行列</param>
+	/// <returns>変換されたスクリーン座標</returns>
+	static Vector2 Transform(Vector2 v, Matrix3x3 m);
 
 	/// <summary>
 	/// 行列の乗算

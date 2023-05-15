@@ -79,6 +79,29 @@ Vector2 MyMath::Normalize(const Vector2& v) {
 }
 
 /// <summary>
+/// 位置座標をスクリーン座標に変換する関数
+/// </summary>
+/// <param name="v">二次元ベクトル</param>
+/// <param name="m">行列</param>
+/// <returns>変換されたスクリーン座標</returns>
+Vector2 MyMath::Transform(Vector2 v, Matrix3x3 m) {
+
+	// 計算結果格納用
+	Vector2 result;
+
+	// 計算処理
+	result.x = v.x * m.m[0][0] + v.y * m.m[1][0] + 1.0f * m.m[2][0];
+	result.y = v.x * m.m[0][1] + v.y * m.m[1][1] + 1.0f * m.m[2][1];
+	float w =  v.x * m.m[0][2] + v.y * m.m[1][2] + 1.0f * m.m[2][2];
+	assert(w != 0.0f);
+	result.x /= w;
+	result.y /= w;
+
+	// 結果を返す
+	return result;
+}
+
+/// <summary>
 /// 行列の乗算
 /// </summary>
 /// <param name="m1">行列1</param>
@@ -90,26 +113,17 @@ Matrix3x3 MyMath::Multiply(const Matrix3x3& m1, const Matrix3x3& m2) {
 	Matrix3x3 result;
 
 	// 計算処理
-	result.m[0][0] = m1.m[0][0] * m2.m[0][0] + m1.m[0][1] * m2.m[1][0] +
-		m1.m[0][2] * m2.m[2][0];
-	result.m[0][1] = m1.m[0][0] * m2.m[0][1] + m1.m[0][1] * m2.m[1][1] +
-		m1.m[0][2] * m2.m[2][1];
-	result.m[0][2] = m1.m[0][0] * m2.m[0][2] + m1.m[0][1] * m2.m[1][2] +
-		m1.m[0][2] * m2.m[2][2];
+	result.m[0][0] = m1.m[0][0] * m2.m[0][0] + m1.m[0][1] * m2.m[1][0] + m1.m[0][2] * m2.m[2][0];
+	result.m[0][1] = m1.m[0][0] * m2.m[0][1] + m1.m[0][1] * m2.m[1][1] + m1.m[0][2] * m2.m[2][1];
+	result.m[0][2] = m1.m[0][0] * m2.m[0][2] + m1.m[0][1] * m2.m[1][2] + m1.m[0][2] * m2.m[2][2];
 
-	result.m[1][0] = m1.m[1][0] * m2.m[0][0] + m1.m[1][1] * m2.m[1][0] +
-		m1.m[1][2] * m2.m[2][0];
-	result.m[1][1] = m1.m[1][0] * m2.m[0][1] + m1.m[1][1] * m2.m[1][1] +
-		m1.m[1][2] * m2.m[2][1];
-	result.m[1][2] = m1.m[1][0] * m2.m[0][2] + m1.m[1][1] * m2.m[1][2] +
-		m1.m[1][2] * m2.m[2][2];
+	result.m[1][0] = m1.m[1][0] * m2.m[0][0] + m1.m[1][1] * m2.m[1][0] + m1.m[1][2] * m2.m[2][0];
+	result.m[1][1] = m1.m[1][0] * m2.m[0][1] + m1.m[1][1] * m2.m[1][1] + m1.m[1][2] * m2.m[2][1];
+	result.m[1][2] = m1.m[1][0] * m2.m[0][2] + m1.m[1][1] * m2.m[1][2] + m1.m[1][2] * m2.m[2][2];
 
-	result.m[2][0] = m1.m[2][0] * m2.m[0][0] + m1.m[2][1] * m2.m[1][0] +
-		m1.m[2][2] * m2.m[2][0];
-	result.m[2][1] = m1.m[2][0] * m2.m[0][1] + m1.m[2][1] * m2.m[1][1] +
-		m1.m[2][2] * m2.m[2][1];
-	result.m[2][2] = m1.m[2][0] * m2.m[0][2] + m1.m[2][1] * m2.m[1][2] +
-		m1.m[2][2] * m2.m[2][2];
+	result.m[2][0] = m1.m[2][0] * m2.m[0][0] + m1.m[2][1] * m2.m[1][0] + m1.m[2][2] * m2.m[2][0];
+	result.m[2][1] = m1.m[2][0] * m2.m[0][1] + m1.m[2][1] * m2.m[1][1] + m1.m[2][2] * m2.m[2][1];
+	result.m[2][2] = m1.m[2][0] * m2.m[0][2] + m1.m[2][1] * m2.m[1][2] + m1.m[2][2] * m2.m[2][2];
 
 	// 結果を返す
 	return result;
@@ -122,39 +136,36 @@ Matrix3x3 MyMath::Multiply(const Matrix3x3& m1, const Matrix3x3& m2) {
 /// <returns>逆行列</returns>
 Matrix3x3 MyMath::Inverse(const Matrix3x3& matrix) {
 
-	// 計算結果格納用
 	Matrix3x3 result;
-	Matrix3x3 temp;
+	float determinant = matrix.m[0][0] * matrix.m[1][1] * matrix.m[2][2] +
+		matrix.m[0][1] * matrix.m[1][2] * matrix.m[2][0] +
+		matrix.m[0][2] * matrix.m[1][0] * matrix.m[2][1] -
+		matrix.m[0][2] * matrix.m[1][1] * matrix.m[2][0] -
+		matrix.m[0][1] * matrix.m[1][0] * matrix.m[2][2] -
+		matrix.m[0][0] * matrix.m[1][2] * matrix.m[2][1];
+	assert(determinant != 0.0f);
+	float determinantRecp = 1.0f / determinant;
 
-	// 行列式を求める
-	float det = matrix.m[0][0] * matrix.m[1][1] * matrix.m[2][2] + matrix.m[0][1] * matrix.m[1][2] * matrix.m[2][0] + matrix.m[0][2] * matrix.m[1][0] * matrix.m[2][1] -
-		matrix.m[0][2] * matrix.m[1][1] * matrix.m[2][0] - matrix.m[0][1] * matrix.m[1][0] * matrix.m[2][2] - matrix.m[0][0] * matrix.m[1][2] * matrix.m[2][1];
+	result.m[0][0] =
+		(matrix.m[1][1] * matrix.m[2][2] - matrix.m[1][2] * matrix.m[2][1]) * determinantRecp;
+	result.m[0][1] =
+		-(matrix.m[0][1] * matrix.m[2][2] - matrix.m[0][2] * matrix.m[2][1]) * determinantRecp;
+	result.m[0][2] =
+		(matrix.m[0][1] * matrix.m[1][2] - matrix.m[0][2] * matrix.m[1][1]) * determinantRecp;
 
-	// 計算処理
-	if (det == 0) {
-		temp = matrix;
-	}
-	else {
-		temp.m[0][0] = (matrix.m[1][1] * matrix.m[2][2] - matrix.m[1][2] * matrix.m[2][1]);
-		temp.m[0][1] = -(matrix.m[0][1] * matrix.m[2][2] - matrix.m[0][2] * matrix.m[2][1]);
-		temp.m[0][2] = (matrix.m[0][1] * matrix.m[1][2] - matrix.m[0][2] * matrix.m[1][1]);
+	result.m[1][0] =
+		-(matrix.m[1][0] * matrix.m[2][2] - matrix.m[1][2] * matrix.m[2][0]) * determinantRecp;
+	result.m[1][1] =
+		(matrix.m[0][0] * matrix.m[2][2] - matrix.m[0][2] * matrix.m[2][0]) * determinantRecp;
+	result.m[1][2] =
+		-(matrix.m[0][0] * matrix.m[1][2] - matrix.m[0][2] * matrix.m[1][0]) * determinantRecp;
 
-		temp.m[1][0] = -(matrix.m[1][0] * matrix.m[2][2] - matrix.m[1][2] * matrix.m[2][0]);
-		temp.m[1][1] = (matrix.m[0][0] * matrix.m[2][2] - matrix.m[0][2] - matrix.m[2][0]);
-		temp.m[1][2] = -(matrix.m[0][0] * matrix.m[1][2] - matrix.m[0][2] * matrix.m[1][0]);
-
-		temp.m[2][0] = (matrix.m[1][0] * matrix.m[2][1] - matrix.m[1][1] * matrix.m[2][0]);
-		temp.m[2][1] = -(matrix.m[0][0] * matrix.m[2][1] - matrix.m[0][1] * matrix.m[2][0]);
-		temp.m[2][2] = (matrix.m[0][0] * matrix.m[1][1] - matrix.m[0][1] * matrix.m[1][0]);
-	}
-
-	for (int y = 0; y < 3; y++) {
-		for (int x = 0; x < 3; x++) {
-			result.m[y][x] = temp.m[y][x] / det;
-		}
-	}
-
-	// 計算結果を返す
+	result.m[2][0] =
+		(matrix.m[1][0] * matrix.m[2][1] - matrix.m[1][1] * matrix.m[2][0]) * determinantRecp;
+	result.m[2][1] =
+		-(matrix.m[0][0] * matrix.m[2][1] - matrix.m[0][1] * matrix.m[2][0]) * determinantRecp;
+	result.m[2][2] =
+		(matrix.m[0][0] * matrix.m[1][1] - matrix.m[0][1] * matrix.m[1][0]) * determinantRecp;
 	return result;
 
 }
@@ -251,25 +262,15 @@ Matrix3x3 MyMath::MakeRotateMatrix(const float& theta) {
 /// <param name="translate">位置座標</param>
 /// <returns>アフィン行列</returns>
 Matrix3x3 MyMath::MakeAffineMatrix(const Vector2& scale, const float& theta, const Vector2& translate) {
+	
+	Matrix3x3 S = MakeScaleMatrix(scale);
+	Matrix3x3 R = MakeRotateMatrix(theta);
+	Matrix3x3 T = MakeTranslateMatrix(translate);
 
-	// 計算結果格納用
-	Matrix3x3 S = MyMath::MakeScaleMatrix(scale);
-	Matrix3x3 R = MyMath::MakeRotateMatrix(theta);
-	Matrix3x3 T = MyMath::MakeTranslateMatrix(translate);
 	Matrix3x3 result;
 
 	// 計算処理
-	result.m[0][0] = S.m[0][0] * R.m[0][0];
-	result.m[0][1] = S.m[0][1] * R.m[0][1];
-	result.m[0][2] = 0.0f;
-
-	result.m[1][0] = S.m[1][0] * R.m[1][0];
-	result.m[1][1] = S.m[1][1] * R.m[1][1];
-	result.m[1][2] = 0.0f;
-
-	result.m[2][0] = T.m[2][0];
-	result.m[2][1] = T.m[2][1];
-	result.m[2][2] = 1.0f;
+	result = Multiply(Multiply(S, R), T);
 
 	// 生成結果を返す
 	return result;
@@ -286,7 +287,8 @@ Matrix3x3 MyMath::MakeAffineMatrix(const Vector2& scale, const float& theta, con
 /// <returns>正射影行列</returns>
 Matrix3x3 MyMath::MakeOrthGraphicMatrix(const float& left, const float& top,
 	const float& right, const float& bottom) {
-
+	assert(left != right);
+	assert(top != bottom);
 	// 計算結果格納用
 	Matrix3x3 result;
 

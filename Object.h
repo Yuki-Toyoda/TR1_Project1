@@ -3,6 +3,7 @@
 #include "MyInput.h"
 #include "MyMath.h"
 #include "MyEnum.h"
+#include "MyCamera.h"
 
 /// <summary>
 /// 時間に影響される全ての物を管理するクラス
@@ -38,7 +39,8 @@ public:
 	/// <summary>
 	/// 描画処理
 	/// </summary>
-	virtual void Draw();
+	/// <param name="timeScale">ゲーム速度</param>
+	virtual void Draw(const float& timeScale);
 
 #pragma endregion
 
@@ -105,14 +107,46 @@ protected:
 
 	// 中心座標
 	Vector2 translate;
+
+	// 左上
+	Vector2 leftTop;
+	// 右上
+	Vector2 rightTop;
+	// 左下
+	Vector2 leftBottom;
+	// 左上
+	Vector2 rightBottom;
+
+	// 左上ローカル座標
+	Vector2 kLeftTop;
+	// 右上ローカル座標
+	Vector2 kRightTop;
+	// 左下ローカル座標
+	Vector2 kLeftBottom;
+	// 右下ローカル座標
+	Vector2 kRightBottom;
+
 	// 速度
 	Vector2 velocity;
+
+	// ワールド行列
+	Matrix3x3 worldMatrix{ 0.0f };
+	// 変換行列
+	Matrix3x3 wvpMatrix{ 0.0f };
+
+	// サイズ
+	Vector2 size;
+	// 倍率
+	Vector2 scale;
 
 	// 重力加速度
 	float GravitationalAcceleration;
 
 	// 生存トリガー
 	bool isAlive;
+
+	// 空中にいるかどうか
+	bool isFlying;
 
 	// 重力を有効にするか
 	bool enableGravity;

@@ -38,6 +38,9 @@
     <Filter Include="MyClass\Object\Player">
       <UniqueIdentifier>{8f0dec94-fa27-4b86-a637-cab778a400a3}</UniqueIdentifier>
     </Filter>
+    <Filter Include="MyClass\Mystruct">
+      <UniqueIdentifier>{5bcf49ca-3bdb-4869-ada3-103911550847}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="C:\KamataEngine\DirectXGame\base\DirectXCommon.cpp">
@@ -171,6 +174,9 @@
     </ClInclude>
     <ClInclude Include="Player.h">
       <Filter>MyClass\Object\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="MyStruct.h">
+      <Filter>MyClass\Mystruct</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

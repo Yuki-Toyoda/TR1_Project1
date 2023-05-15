@@ -15,4 +15,3 @@ static const float kFloorHeight = 20.0f;
 
 // 加速度限界値
 static const float kVelocityLimit = 10.0f;
-
