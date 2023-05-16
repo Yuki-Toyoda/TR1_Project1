@@ -1,26 +1,26 @@
-﻿#include "Player.h"
+﻿#include "Enemy.h"
 #include "MyConst.h"
 
 /// <summary>
 /// コンストラクタ
 /// </summary>
-/// <param name="translate_">プレイヤーの初期座標</param>
-Player::Player(Vector2 translate_) {
-	// 引数の値をメンバ変数に代入
+/// <param name="translate_">敵の初期座標</param>
+Enemy::Enemy(Vector2 translate_) {
+	// 引数の値をメンバ変数に代入する
 	transform.translate = translate_;
 }
 
 /// <summary>
 /// デストラクタ
 /// </summary>
-Player::~Player() {
+Enemy::~Enemy() {
 
 }
 
 /// <summary>
-/// プレイヤーの初期化処理
+/// 初期化処理
 /// </summary>
-void Player::SuccessorInitialize() {
+void Enemy::SuccessorInitialize() {
 
 	// 大きさ初期化
 	transform.size = { 50.0f, 100.0f };
@@ -67,15 +67,13 @@ void Player::SuccessorInitialize() {
 	// テクスチャ読み込み
 	textureHandle = Novice::LoadTexture("white1x1.png");
 
-	color = 0xFFFFFFFF;
-
 }
 
 /// <summary>
-/// オブジェクト共通の更新処理
+/// 敵の更新処理
 /// </summary>
 /// <param name="timeScale">ゲーム時間</param>
-void Player::Update(const float& timeScale) {
+void Enemy::Update(const float& timeScale) {
 	if (isAlive) {
 
 		acceleration = { 0,0 };
@@ -165,72 +163,24 @@ void Player::Update(const float& timeScale) {
 }
 
 /// <summary>
-/// プレイヤーの更新処理
+/// 敵固有の更新処理
 /// </summary>
 /// <param name="timeScale">ゲーム時間</param>
-void Player::SuccessorUpdate(const float& timeScale) {
+void Enemy::SuccessorUpdate(const float& timeScale) {
 
-	// 移動処理
-	if (MyInput::GetKeybordState(DIK_D, Press)) {
-		velocity.x = 5.0f;
-	}
-	else if (MyInput::GetKeybordState(DIK_A, Press)) {
-		velocity.x = -5.0f;
+	if (MyInput::GetKeybordState(DIK_T, Press)) {
+		transform.translate.x = 0.0f;
 	}
 
-	// ジャンプ処理
-	if (MyInput::GetKeybordState(DIK_SPACE, Trigger)) {
-		if (!isFlying) {
-			// 速度Yがマイナスのとき -> 0にリセットしてから
-			if (velocity.y < 0) {
-				velocity.y = 0;
-			}
-			// ジャンプ分の速度を足す
-			velocity.y += 9.8f * 4.0f;
-		}
-
-		// 空中にいる状態にする
-		isFlying = true;
-
-	}
-
-	color = 0xFFFFFFFF;
+	velocity.x = 1.0f * timeScale;
 
 }
 
 /// <summary>
-/// プレイヤーの描画処理
+/// 敵の描画処理
 /// </summary>
 /// <param name="timeScale">ゲーム時間</param>
-void Player::Draw(const float& timeScale) {
-
-#pragma region Debug
-
-	/*Novice::ScreenPrintf(0, 0, "leftTop : x = %4.2f y = %4.2f", leftTop.x, leftTop.y);
-	Novice::ScreenPrintf(0, 20, "rightTop : x = %4.2f y = %4.2f", rightTop.x, rightTop.y);
-	Novice::ScreenPrintf(0, 40, "leftBottom : x = %4.2f y = %4.2f", leftBottom.x, leftBottom.y);
-	Novice::ScreenPrintf(0, 60, "rightBottom : x = %4.2f y = %4.2f", rightBottom.x, rightBottom.y);*/
-	Novice::ScreenPrintf(0, 0, "leftTop : x = %4.2f y = %4.2f", transform.leftTop.x, transform.leftTop.y);
-	Novice::ScreenPrintf(0, 20, "rightTop : x = %4.2f y = %4.2f", transform.rightTop.x, transform.rightTop.y);
-	Novice::ScreenPrintf(0, 40, "leftBottom : x = %4.2f y = %4.2f", transform.leftBottom.x, transform.leftBottom.y);
-	Novice::ScreenPrintf(0, 60, "rightBottom : x = %4.2f y = %4.2f", transform.rightBottom.x, transform.rightBottom.y);
-
-	/*Novice::ScreenPrintf(0, 80, "isFly %d", isFlying);
-	Novice::ScreenPrintf(0, 100, "velocity : x = %4.2f y = %4.2f", velocity.x, velocity.y);*/
-
-	/*Novice::DrawQuad(
-			(int)translate.x - (int)size.x / 2, (int)translate.y - (int)size.y / 2,
-			(int)translate.x + (int)size.x / 2, (int)translate.y - (int)size.y / 2,
-			(int)translate.x - (int)size.x / 2, (int)translate.y + (int)size.y / 2,
-			(int)translate.x + (int)size.x / 2, (int)translate.y + (int)size.y / 2,
-			0, 0,
-			1, 1,
-			textureHandle,
-			WHITE
-		);*/
-
-#pragma endregion
-
+void Enemy::Draw(const float& timeScale) {
 	if (isAlive) {
 		Novice::DrawQuad(
 			(int)transform.leftTop.x, (int)transform.leftTop.y,
@@ -240,44 +190,23 @@ void Player::Draw(const float& timeScale) {
 			0, 0,
 			1, 1,
 			textureHandle,
-			color
+			RED
 		);
 	}
-
 }
 
 /// <summary>
 /// オブジェクトのタイプを取得する関数
 /// </summary>
 /// <returns>オブジェクトタイプ</returns>
-ObjectType Player::GetType() {
-	return TypePlayer;
+ObjectType Enemy::GetType() {
+	return TypeEnemy;
 }
-
-#pragma region 当たり判定
 
 /// <summary>
 /// オブジェクトに当たった時に呼び出される関数
 /// </summary>
 /// <param name="objectType">当たったオブジェクトのタイプ</param>
-void Player::HitObject(ObjectType objectType) {
-	switch (objectType)
-	{
-	case TypeObject:
-		break;
-	case TypePlayer:
-		break;
-	case TypePlayerWeapon:
-		break;
-	case TypeEnemy:
-
-		// 色を変える
-		color = 0x000000FF;
-
-		break;
-	default:
-		break;
-	}
+void Enemy::HitObject(ObjectType objectType) {
+	
 }
-
-#pragma endregion

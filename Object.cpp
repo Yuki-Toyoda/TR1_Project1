@@ -14,45 +14,49 @@ void Object::Initialize() {
 /// </summary>
 void Object::SuccessorInitialize() {
 
-	// 中心座標初期化
-	//translate = { -10000.0f, -10000.0f };
-	translate = { 640.0f, 360.0f };
+	// 座標初期化
+	transform.translate = { -100000.0f,-100000.0f };
+
+	// 大きさ初期化
+	transform.size = { 0.0f, 0.0f };
+
+	// 倍率
+	transform.scale = { 1.0f, 1.0f };
+
+	// 左上
+	transform.leftTop = { -transform.size.x / 2.0f, transform.size.y / 2.0f };
+	// 右上
+	transform.rightTop = { transform.size.x / 2.0f, transform.size.y / 2.0f };
+	// 左下
+	transform.leftBottom = { -transform.size.x / 2.0f, -transform.size.y / 2.0f };
+	// 左上
+	transform.rightBottom = { transform.size.x / 2.0f, -transform.size.y / 2.0f };
+
+	// 左上ローカル座標
+	transform.kLeftTop = { -transform.size.x / 2.0f, transform.size.y / 2.0f };
+	// 右上ローカル座標
+	transform.kRightTop = { transform.size.x / 2.0f, transform.size.y / 2.0f };
+	// 左下ローカル座標
+	transform.kLeftBottom = { -transform.size.x / 2.0f, -transform.size.y / 2.0f };
+	// 右下ローカル座標
+	transform.kRightBottom = { transform.size.x / 2.0f, -transform.size.y / 2.0f };
 
 	// 速度初期化
 	velocity = { 0.0f, 0.0f };
-	// 大きさ初期化
-	size = { 0.0f, 0.0f };
-	// 倍率初期化
-	scale = { 1.0f, 1.0f };
 
-	// 左上
-	leftTop = { -size.x / 2.0f, size.y / 2.0f };
-	// 右上
-	rightTop = { size.x / 2.0f, size.y / 2.0f };
-	// 左下
-	leftBottom = { -size.x / 2.0f, -size.y / 2.0f };
-	// 左上
-	rightBottom = { size.x / 2.0f, -size.y / 2.0f };
+	// 重力加速度初期化
+	GravitationalAcceleration = 9.8f / 2.5f;
 
-	// 左上ローカル座標
-	Vector2 kLeftTop = { -size.x / 2.0f, size.y / 2.0f };
-	// 右上ローカル座標
-	Vector2 kRightTop = { size.x / 2.0f, size.y / 2.0f };
-	// 左下ローカル座標
-	Vector2 kLeftBottom = { -size.x / 2.0f, -size.y / 2.0f };
-	// 右下ローカル座標
-	Vector2 kRightBottom = { size.x / 2.0f, -size.y / 2.0f };
+	// 敵固有のTimeScale
+	MyTimeScale = 1.0f;
 
-	// 重力加速度
-	GravitationalAcceleration = 0.0f;
-
-	// 生存トリガー初期化
-	isAlive = true;
-	// 空中にいる
+	// 飛んでいるか
 	isFlying = true;
-	// 重力トリガー初期化
+	// 生存トリガーTrue
+	isAlive = false;
+	// 重力を有効かする
 	enableGravity = false;
-	// 当たり判定トリガー初期化
+	// 当たり判定を有効
 	enableCollision = false;
 
 }
@@ -65,8 +69,7 @@ void Object::Update(const float& timeScale) {
 
 	if (isAlive) {
 
-		// 速度初期化
-		velocity = { 0,0 };
+		acceleration = { 0,0 };
 
 		// オブジェクト固有の更新処理
 		SuccessorUpdate(timeScale);
@@ -78,50 +81,76 @@ void Object::Update(const float& timeScale) {
 
 				}
 				else {
-					velocity.y -= (GravitationalAcceleration * timeScale);
+					acceleration.y -= (GravitationalAcceleration * timeScale);
 				}
 			}
-			else {
-				velocity.y = 0.0f;
-			}
 		}
+
+		// 速度に加速度を足す
+		velocity = velocity + acceleration;
 
 		// トンネリング防止
 		for (int i = 0; i < 10; i++) {
 			// 移動処理
-			translate.x += velocity.x * 0.1f * timeScale;
-			translate.y += velocity.y * 0.1f * timeScale;
+			transform.translate.x += velocity.x * 0.1f * timeScale;
+			transform.translate.y += velocity.y * 0.1f * timeScale;
 
 			// 衝突判定
 			if (enableCollision) {
-				if (translate.y < kFloorHeight + (size.y / 2.0f)) {
-					translate.y = kFloorHeight + (size.y / 2.0f);
+				if (transform.translate.y < kFloorHeight + (transform.size.y / 2.0f)) {
+					transform.translate.y = kFloorHeight + (transform.size.y / 2.0f);
 					isFlying = false;
 				}
 			}
 		}
 
+		// 速度を少しずつ減速させる
+		if (velocity.x > 0) {
+			velocity.x -= 0.25f * timeScale;
+			if (velocity.x < 0) {
+				velocity.x = 0;
+			}
+		}
+		else if (velocity.x < 0) {
+			velocity.x += 0.25f * timeScale;
+			if (velocity.x > 0) {
+				velocity.x = 0;
+			}
+		}
+		if (velocity.y > 0) {
+			velocity.y -= 0.25f * timeScale;
+			if (velocity.y < 0) {
+				velocity.y = 0;
+			}
+		}
+		else if (velocity.y < 0) {
+			velocity.y += 0.25f * timeScale;
+			if (velocity.y > 0) {
+				velocity.y = 0;
+			}
+		}
+
 		// 衝突判定が有効なら
 		if (enableCollision) {
-			if (translate.y < kFloorHeight + (size.y / 2.0f)) {
-				translate.y = kFloorHeight + (size.y / 2.0f);
+			if (transform.translate.y < kFloorHeight + (transform.size.y / 2.0f)) {
+				transform.translate.y = kFloorHeight + (transform.size.y / 2.0f);
 				isFlying = false;
 			}
 		}
 
 		// アフィン行列生成
-		worldMatrix = MyMath::MakeAffineMatrix(scale, 0.0f, translate);
+		//worldMatrix = MyMath::MakeAffineMatrix(scale, 0.0f, translate);
+		worldMatrix = MyMath::MakeAffineMatrix(transform.scale, 0.0f, transform.translate);
 
 		// 行列を合成
 		wvpMatrix = MyMath::Multiply(worldMatrix, MyCamera::GetViewMatrix());
 		wvpMatrix = MyMath::Multiply(wvpMatrix, MyCamera::GetOrthoMatrix());
 		wvpMatrix = MyMath::Multiply(wvpMatrix, MyCamera::GetViewPortMatrix());
 
-		// 合成した行列で4頂点を変換する
-		leftTop = MyMath::Transform(kLeftTop, wvpMatrix);
-		rightTop = MyMath::Transform(kRightTop, wvpMatrix);
-		leftBottom = MyMath::Transform(kLeftBottom, wvpMatrix);
-		rightBottom = MyMath::Transform(kRightBottom, wvpMatrix);
+		transform.leftTop = MyMath::Transform(transform.kLeftTop, wvpMatrix);
+		transform.rightTop = MyMath::Transform(transform.kRightTop, wvpMatrix);
+		transform.leftBottom = MyMath::Transform(transform.kLeftBottom, wvpMatrix);
+		transform.rightBottom = MyMath::Transform(transform.kRightBottom, wvpMatrix);
 
 	}
 }
@@ -138,11 +167,7 @@ void Object::SuccessorUpdate(const float& timeScale){
 /// </summary>
 void Object::Draw(const float& timeScale) {
 	if (isAlive) {
-		Novice::DrawBox((int)translate.x, (int)translate.y,
-			(int)size.x, (int)size.y,
-			0.0f,
-			WHITE,
-			kFillModeSolid);
+		
 	}
 }
 
@@ -154,3 +179,11 @@ ObjectType Object::GetType() {
 	// オブジェクトのタイプを返す
 	return TypeObject;
 }
+
+#pragma region 当たり判定
+
+void Object::HitObject(ObjectType objectType) {
+
+}
+
+#pragma endregion

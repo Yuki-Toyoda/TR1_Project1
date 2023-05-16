@@ -1,12 +1,9 @@
 ﻿#pragma once
+#include <Novice.h>
+#include "MyCamera.h"
 #include "MyMath.h"
-
-/// <summary>
-/// 描画系関数クラス
-/// </summary>
 class MyDraw
 {
-
 	
 
 };

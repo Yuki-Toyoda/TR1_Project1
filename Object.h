@@ -13,7 +13,7 @@ class Object
 	
 public:
 
-#pragma region Initialize
+#pragma region Initialize等
 
 	/// <summary>
 	/// オブジェクト共通の初期化処理
@@ -49,7 +49,19 @@ public:
 	/// <summary>
 	/// オブジェクトの中心座標を取得するゲッター
 	/// </summary>
-	Vector2 GetTranslate() { return translate; }
+	Vector2 GetTranslate() { return transform.translate; }
+
+	/// <summary>
+	/// オブジェクトの左上頂点を取得するゲッター
+	/// </summary>
+	/// <returns>オブジェクトの左上頂点</returns>
+	Vector2 GetLeftTop() { return transform.leftTop; }
+
+	/// <summary>
+	/// オブジェクトの右下頂点を取得するゲッター
+	/// </summary>
+	/// <returns>オブジェクトの右下頂点</returns>
+	Vector2 GetRightBottom() { return transform.rightBottom; }
 
 	/// <summary>
 	/// オブジェクトの移動速度を取得するゲッター
@@ -67,7 +79,7 @@ public:
 	/// オブジェクトの座標のセッター
 	/// </summary>
 	/// <param name="translate">位置座標</param>
-	void SetTranslate(Vector2 translate_) { this->translate = translate_; }
+	void SetTranslate(Vector2 translate_) { this->transform.translate = translate_; }
 
 	/// <summary>
 	/// オブジェクトの速度のセッター
@@ -101,46 +113,38 @@ public:
 
 #pragma endregion
 
+#pragma region 当たり判定
+
+	/// <summary>
+	/// オブジェクトに当たった時に呼び出される関数
+	/// </summary>
+	/// <param name="objectType">当たったオブジェクトのタイプ</param>
+	virtual void HitObject(ObjectType objectType);
+
+#pragma endregion
+
+
 protected:
 
 	/// メンバ変数
 
-	// 中心座標
-	Vector2 translate;
-
-	// 左上
-	Vector2 leftTop;
-	// 右上
-	Vector2 rightTop;
-	// 左下
-	Vector2 leftBottom;
-	// 左上
-	Vector2 rightBottom;
-
-	// 左上ローカル座標
-	Vector2 kLeftTop;
-	// 右上ローカル座標
-	Vector2 kRightTop;
-	// 左下ローカル座標
-	Vector2 kLeftBottom;
-	// 右下ローカル座標
-	Vector2 kRightBottom;
+	Transform transform;
 
 	// 速度
 	Vector2 velocity;
+	// 加速度
+	Vector2 acceleration;
 
 	// ワールド行列
 	Matrix3x3 worldMatrix{ 0.0f };
 	// 変換行列
 	Matrix3x3 wvpMatrix{ 0.0f };
 
-	// サイズ
-	Vector2 size;
-	// 倍率
-	Vector2 scale;
-
 	// 重力加速度
 	float GravitationalAcceleration;
+
+	// オブジェクト固有のタイムスケール
+	float MyTimeScale;
 
 	// 生存トリガー
 	bool isAlive;

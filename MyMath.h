@@ -3,6 +3,7 @@
 #include <cassert>
 #include "Vector2.h"
 #include "Matrix3x3.h"
+#include "MyStruct.h"
 
 /// <summary>
 /// 二次元座標系の計算クラス
@@ -10,6 +11,70 @@
 class MyMath
 {
 public:
+
+#pragma region 線形補間関数
+
+	/// <summary>
+	/// 線形補間関数(Normal)(float)
+	/// </summary>
+	/// <param name="t">現在のt</param>
+	/// <param name="start">開始値</param>
+	/// <param name="end">終了値</param>
+	/// <param name="time">かかる秒数</param>
+	/// <returns>イージングされた値(float)</returns>
+	static float LinearF(float t, float start, float end, float time);
+
+	/// <summary>
+	/// 線形補間関数(EaseIn)(float)
+	/// </summary>
+	/// <param name="t">現在のt</param>
+	/// <param name="start">開始値</param>
+	/// <param name="end">終了値</param>
+	/// <param name="time">かかる秒数</param>
+	/// <returns>イージングされた値(float)</returns>
+	static float EaseInF(float t, float start, float end, float time);
+
+	/// <summary>
+	/// 線形補間関数(EaseOut)(float)
+	/// </summary>
+	/// <param name="t">現在のt</param>
+	/// <param name="start">開始値</param>
+	/// <param name="end">終了値</param>
+	/// <param name="time">かかる秒数</param>
+	/// <returns>イージングされた値(float)</returns>
+	static float EaseOutF(float t, float start, float end, float time);
+
+	/// <summary>
+	/// 線形補間関数(Normal)(int)
+	/// </summary>
+	/// <param name="t">現在のt</param>
+	/// <param name="start">開始値</param>
+	/// <param name="end">終了値</param>
+	/// <param name="time">かかる秒数</param>
+	/// <returns>イージングされた値(float)</returns>
+	static int LinearI(float t, int start, int end, float time);
+
+	/// <summary>
+	/// 線形補間関数(EaseIn)(int)
+	/// </summary>
+	/// <param name="t">現在のt</param>
+	/// <param name="start">開始値</param>
+	/// <param name="end">終了値</param>
+	/// <param name="time">かかる秒数</param>
+	/// <returns>イージングされた値(float)</returns>
+	static int EaseInI(float t, int start, int end, float time);
+
+	/// <summary>
+	/// 線形補間関数(EaseOut)(int)
+	/// </summary>
+	/// <param name="t">現在のt</param>
+	/// <param name="start">開始値</param>
+	/// <param name="end">終了値</param>
+	/// <param name="time">かかる秒数</param>
+	/// <returns>イージングされた値(float)</returns>
+	static int EaseOutI(float t, int start, int end, float time);
+
+#pragma endregion
 
 	/// <summary>
 	/// 二次元ベクトルを指定された値でスカラー倍する関数
@@ -115,5 +180,15 @@ public:
 	/// <returns>ビューポート行列</returns>
 	static Matrix3x3 MakeViewportMatrix(const float& left, const float& top,
 		const float& width, const float& height);
+
+	/// <summary>
+	/// 矩形同士の当たり判定を調べる関数
+	/// </summary>
+	/// <param name="lT1">矩形1の左上頂点</param>
+	/// <param name="rB1">矩形1の右下頂点</param>
+	/// <param name="lt2">矩形2の左上頂点</param>
+	/// <param name="rB2">矩形2の右下頂点</param>
+	/// <returns>矩形同士が当たっているか</returns>
+	static bool CheckHitQuad(Vector2 lT1, Vector2 rB1, Vector2 lT2, Vector2 rB2);
 
 };

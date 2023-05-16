@@ -38,7 +38,16 @@
     <Filter Include="MyClass\Object\Player">
       <UniqueIdentifier>{8f0dec94-fa27-4b86-a637-cab778a400a3}</UniqueIdentifier>
     </Filter>
-    <Filter Include="MyClass\Mystruct">
+    <Filter Include="MyClass\Object\Enemy">
+      <UniqueIdentifier>{613195ff-bb12-42bf-9bd7-de16134c2469}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MyClass\Map">
+      <UniqueIdentifier>{1c44188e-e97f-4479-9521-e17ac0a6d1d5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MyClass\Draw">
+      <UniqueIdentifier>{b156cb87-b61d-434d-963a-0fb5738b7f33}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MyClass\Struct">
       <UniqueIdentifier>{5bcf49ca-3bdb-4869-ada3-103911550847}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
@@ -79,6 +88,18 @@
     </ClCompile>
     <ClCompile Include="Player.cpp">
       <Filter>MyClass\Object\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="Enemy.cpp">
+      <Filter>MyClass\Object\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="Map.cpp">
+      <Filter>MyClass\Map</Filter>
+    </ClCompile>
+    <ClCompile Include="MapManager.cpp">
+      <Filter>MyClass\Map</Filter>
+    </ClCompile>
+    <ClCompile Include="MyDraw.cpp">
+      <Filter>MyClass\Draw</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -176,7 +197,19 @@
       <Filter>MyClass\Object\Player</Filter>
     </ClInclude>
     <ClInclude Include="MyStruct.h">
-      <Filter>MyClass\Mystruct</Filter>
+      <Filter>MyClass\Struct</Filter>
+    </ClInclude>
+    <ClInclude Include="Enemy.h">
+      <Filter>MyClass\Object\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="Map.h">
+      <Filter>MyClass\Map</Filter>
+    </ClInclude>
+    <ClInclude Include="MapManager.h">
+      <Filter>MyClass\Map</Filter>
+    </ClInclude>
+    <ClInclude Include="MyDraw.h">
+      <Filter>MyClass\Draw</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

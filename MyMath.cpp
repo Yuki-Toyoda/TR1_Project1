@@ -1,5 +1,91 @@
 ﻿#include "MyMath.h"
 
+#pragma region 線形補間関数
+
+/// <summary>
+/// 線形補間関数(Normal)(float)
+/// </summary>
+/// <param name="t">現在のt</param>
+/// <param name="start">開始値</param>
+/// <param name="end">終了値</param>
+/// <param name="time">かかる秒数</param>
+/// <returns>イージングされた値(float)</returns>
+float MyMath::LinearF(float t, float start, float end, float time) {
+	return (1.0 - t / time) * start + t / time * end;
+}
+
+/// <summary>
+/// 線形補間関数(EaseIn)(float)
+/// </summary>
+/// <param name="t">現在のt</param>
+/// <param name="start">開始値</param>
+/// <param name="end">終了値</param>
+/// <param name="time">かかる秒数</param>
+/// <returns>イージングされた値(float)</returns>
+float MyMath::EaseInF(float t, float start, float end, float time) {
+	float easeT = t * t;
+	return (1.0 - easeT / time) * start + easeT / time * end;
+}
+
+/// <summary>
+/// 線形補間関数(EaseOut)(float)
+/// </summary>
+/// <param name="t">現在のt</param>
+/// <param name="start">開始値</param>
+/// <param name="end">終了値</param>
+/// <param name="time">かかる秒数</param>
+/// <returns>イージングされた値(float)</returns>
+float MyMath::EaseOutF(float t, float start, float end, float time) {
+	float easeT = 1.0f - powf(1.0f - t / time, 3.0f);
+	return (1.0 - easeT) * start + easeT * end;
+}
+
+/// <summary>
+/// 線形補間関数(Normal)(int)
+/// </summary>
+/// <param name="t">現在のt</param>
+/// <param name="start">開始値</param>
+/// <param name="end">終了値</param>
+/// <param name="time">かかる秒数</param>
+/// <returns>イージングされた値(float)</returns>
+int MyMath::LinearI(float t, int start, int end, float time) {
+	return (1.0 - t / time) * (float)start + t / time * (float)end;
+}
+
+/// <summary>
+/// 線形補間関数(EaseIn)(int)
+/// </summary>
+/// <param name="t">現在のt</param>
+/// <param name="start">開始値</param>
+/// <param name="end">終了値</param>
+/// <param name="time">かかる秒数</param>
+/// <returns>イージングされた値(float)</returns>
+int MyMath::EaseInI(float t, int start, int end, float time) {
+	float easeT = t * t;
+	return (1.0 - easeT / time) * (float)start + easeT / time * (float)end;
+}
+
+/// <summary>
+/// 線形補間関数(EaseOut)(int)
+/// </summary>
+/// <param name="t">現在のt</param>
+/// <param name="start">開始値</param>
+/// <param name="end">終了値</param>
+/// <param name="time">かかる秒数</param>
+/// <returns>イージングされた値(float)</returns>
+int MyMath::EaseOutI(float t, int start, int end, float time) {
+	float easeT = 1.0f - powf(1.0f - t / time, 3.0f);
+	return (1.0 - easeT) * (float)start + easeT * (float)end;
+}
+
+#pragma endregion
+
+/// <summary>
+/// 二次元ベクトルを指定された値でスカラー倍する関数
+/// </summary>
+/// <param name="k">何倍にするか</param>
+/// <param name="v1">計算するベクトル</param>
+/// <returns>計算結果</returns>
 Vector2 MyMath::Vector2Multiply(const float k, const Vector2& v1) {
 
 	// 結果格納用
@@ -340,4 +426,24 @@ Matrix3x3 MyMath::MakeViewportMatrix(const float& left, const float& top,
 	// 計算結果を返す
 	return result;
 
+}
+
+/// <summary>
+/// 矩形同士の当たり判定を調べる関数
+/// </summary>
+/// <param name="lT1">矩形1の左上頂点</param>
+/// <param name="rB1">矩形1の右下頂点</param>
+/// <param name="lt2">矩形2の左上頂点</param>
+/// <param name="rB2">矩形2の右下頂点</param>
+/// <returns>矩形同士が当たっているか</returns>
+bool MyMath::CheckHitQuad(Vector2 lT1, Vector2 rB1, Vector2 lT2, Vector2 rB2) {
+	if (lT1.x < rB2.x && lT2.x < rB1.x) {
+		if (lT1.y < rB2.y && lT2.y < rB1.y) {
+			// 当たっている場合true
+			return true;
+		}
+	}
+
+	// 当たっていない場合false
+	return false;
 }

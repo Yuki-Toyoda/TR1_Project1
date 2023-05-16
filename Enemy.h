@@ -1,27 +1,25 @@
 ﻿#pragma once
 #include <Novice.h>
-#include "Object.h"
 #include "MyMath.h"
 #include "MyEnum.h"
-
-class Player : public Object
+#include "Object.h"
+class Enemy : public Object
 {
-
 public:
 
 	/// <summary>
 	/// コンストラクタ
 	/// </summary>
-	/// <param name="translate_">プレイヤーの初期座標</param>
-	Player(Vector2 translate_);
+	/// <param name="translate_">敵の初期座標</param>
+	Enemy(Vector2 translate_);
 
 	/// <summary>
 	/// デストラクタ
 	/// </summary>
-	~Player();
+	~Enemy();
 
 	/// <summary>
-	/// プレイヤーの初期化処理
+	/// 敵の初期化処理
 	/// </summary>
 	void SuccessorInitialize() override;
 
@@ -32,7 +30,7 @@ public:
 	void Update(const float& timeScale) override;
 
 	/// <summary>
-	/// プレイヤーの更新処理
+	/// 敵の更新処理
 	/// </summary>
 	/// <param name="timeScale">ゲーム時間</param>
 	void  SuccessorUpdate(const float& timeScale) override;
@@ -63,9 +61,6 @@ private:
 
 	// テクスチャ
 	int textureHandle;
-
-	// カラー
-	unsigned int color;
 
 };
 

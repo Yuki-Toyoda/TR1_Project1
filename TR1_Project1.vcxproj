@@ -106,8 +106,12 @@
     <ClCompile Include="C:\KamataEngine\DirectXGame\base\TextureManager.cpp" />
     <ClCompile Include="C:\KamataEngine\DirectXGame\2d\ImGuiManager.cpp" />
     <ClCompile Include="C:\KamataEngine\Adapter\Novice.cpp" />
+    <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Map.cpp" />
+    <ClCompile Include="MapManager.cpp" />
     <ClCompile Include="MyCamera.cpp" />
+    <ClCompile Include="MyDraw.cpp" />
     <ClCompile Include="MyInput.cpp" />
     <ClCompile Include="MyMath.cpp" />
     <ClCompile Include="Object.cpp" />
@@ -142,8 +146,12 @@
     <ClInclude Include="C:\KamataEngine\DirectXGame\input\Input.h" />
     <ClInclude Include="C:\KamataEngine\DirectXGame\scene\GameScene.h" />
     <ClInclude Include="C:\KamataEngine\Adapter\Novice.h" />
+    <ClInclude Include="Enemy.h" />
+    <ClInclude Include="Map.h" />
+    <ClInclude Include="MapManager.h" />
     <ClInclude Include="MyCamera.h" />
     <ClInclude Include="MyConst.h" />
+    <ClInclude Include="MyDraw.h" />
     <ClInclude Include="MyEnum.h" />
     <ClInclude Include="MyInput.h" />
     <ClInclude Include="MyMath.h" />

@@ -1,10 +1,20 @@
-#pragma once
+ï»¿#pragma once
 #include "Vector2.h"
+
 /// <summary>
-/// ƒgƒ‰ƒ“ƒXƒtƒH[ƒ€\‘¢‘Ì
+/// ãƒˆãƒ©ãƒ³ã‚¹ãƒ•ã‚©ãƒ¼ãƒ æ§‹é€ ä½“
 /// </summary>
-struct Transform {
-	Vector2 scale;
-	float theta;
+struct Transform final{
 	Vector2 translate;
+	Vector2 leftTop;
+	Vector2 rightTop;
+	Vector2 leftBottom;
+	Vector2 rightBottom;
+	Vector2 kLeftTop;
+	Vector2 kRightTop;
+	Vector2 kLeftBottom;
+	Vector2 kRightBottom;
+	Vector2 scale;
+	Vector2 size;
+	float theta;
 };

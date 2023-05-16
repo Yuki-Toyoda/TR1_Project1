@@ -25,6 +25,8 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 	objectManager.MakeNewObjectPlayer({ 640.0f, 360.0f });
 
+	objectManager.MakeNewObjectEnemy({ 800.0f, 360.0f });
+	objectManager.MakeNewObjectEnemy({ 400.0f, 360.0f });
 	// ウィンドウの×ボタンが押されるまでループ
 	while (Novice::ProcessMessage() == 0) {
 		// フレームの開始
@@ -42,20 +44,6 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		// オブジェクト更新処理
 		objectManager.Update();
 
-		if (MyInput::GetKeybordState(DIK_RIGHT, Press)) {
-			translate.x += 1.0f;
-		}
-		else if (MyInput::GetKeybordState(DIK_LEFT, Press)) {
-			translate.x -= 1.0f;
-		}
-
-		if (MyInput::GetKeybordState(DIK_UP, Press)) {
-			translate.y += 1.0f;
-		}
-		else if (MyInput::GetKeybordState(DIK_DOWN, Press)) {
-			translate.y -= 1.0f;
-		}
-
 		///
 		/// ↑更新処理ここまで
 		///
@@ -68,7 +56,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		objectManager.Draw();
 
 		// デバック描画
-		Novice::ScreenPrintf(0, 40, "camera : x = %4.2f y = %4.2f", translate.x, translate.y);
+		// Novice::ScreenPrintf(0, 40, "camera : x = %4.2f y = %4.2f", translate.x, translate.y);
 
 		///
 		/// ↑描画処理ここまで
