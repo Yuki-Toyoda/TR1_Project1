@@ -56,16 +56,6 @@ public:
 	/// <param name="timeScale_">設定する時間</param>
 	void SetTime(float timeScale_);
 
-	/// <summary>
-	/// イージングを用い、指定した秒数でTimeScaleをセットする関数
-	/// </summary>
-	/// <param name="type">イージングのタイプ</param>
-	/// <param name="t">t</param>
-	/// <param name="time">かかる秒数</param>
-	/// <param name="timeScale_">設定するゲーム時間</param>
-	/// <returns>イージングが終わったかどうか</returns>
-	bool EaseSetTime(EasingType type, float t, float time, float timeScale_);
-
 #pragma endregion
 
 #pragma region 当たり判定

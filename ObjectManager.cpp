@@ -138,38 +138,6 @@ void ObjectManager::SetTime(float timeScale_) {
 	this->timeScale = timeScale_;
 }
 
-/// <summary>
-/// イージングを用い、指定した秒数でTimeScaleをセットする関数
-/// </summary>
-/// <param name="type">イージングのタイプ</param>
-/// <param name="t">t</param>
-/// <param name="time">かかる秒数</param>
-/// <param name="timeScale_">設定するゲーム時間</param>
-/// <returns>イージングが終わったかどうか</returns>
-bool ObjectManager::EaseSetTime(EasingType type, float t, float time, float timeScale_) {
-
-	switch (type)
-	{
-	case TypeEaseNormal:
-		this->timeScale = MyMath::LinearF(t, prevTimeScale, timeScale_, time);
-		break;
-	case TypeEaseIn:
-		this->timeScale = MyMath::EaseInF(t, prevTimeScale, timeScale_, time);
-		break;
-	case TypeEaseOut:
-		this->timeScale = MyMath::EaseOutF(t, prevTimeScale, timeScale_, time);
-		break;
-	}
-
-	if (t < 1.0f) {
-		t += 0.1f;
-	}
-	else {
-		return true;
-	}
-
-}
-
 #pragma endregion
 
 #pragma region 当たり判定
